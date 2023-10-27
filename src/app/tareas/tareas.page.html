@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Listado de Tareas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Botón de Agregar -->
+  <ion-button expand="full" (click)="agregarNuevaTarea()" color="success">NUEVA TAREA</ion-button>
+
+  <!-- Espacio entre campos de filtro -->
+  <ion-item class="paddin-filter rounded-input">
+    <ion-input [(ngModel)]="filtro.titulo" placeholder="Filtrar por título" clearInput></ion-input>
+  </ion-item>
+
+  <ion-item class="paddin-filter rounded-input">
+    <ion-select [(ngModel)]="filtro.usuario" placeholder="Filtrar por usuario">
+      <!-- Opciones del ion-select aquí -->
+    </ion-select>
+  </ion-item>
+
+  <ion-list class="paddin-filter">
+    <ion-item-divider>
+      <ion-label class="column-spacing">ID</ion-label>
+      <ion-label class="column-spacing">Título</ion-label>
+      <ion-label class="column-spacing">Descripción</ion-label>
+      <ion-label class="column-spacing">Usuario Asignado</ion-label>
+      <ion-label class="column-spacing">Fecha de Inicio</ion-label>
+      <ion-label class="column-spacing">Fecha de Fin</ion-label>
+      <ion-label class="column-spacing">Acciones</ion-label>
+    </ion-item-divider>
+
+    <ion-item *ngFor="let tarea of tareasFiltradas">
+      <ion-label class="column-spacing">{{ tarea.id }}</ion-label>
+      <ion-label class="column-spacing">{{ tarea.titulo }}</ion-label>
+      <ion-label class="column-spacing">{{ tarea.descripcion }}</ion-label>
+      <ion-label class="column-spacing">{{ tarea.usuarioAsignado }}</ion-label>
+      <ion-label class="column-spacing">{{ tarea.fechaInicio | date:'dd/MM/yyyy' }}</ion-label>
+      <ion-label class="column-spacing">{{ tarea.fechaFin | date:'dd/MM/yyyy' }}</ion-label>
+      <ion-button color="primary" size="small" (click)="editarTarea(tarea)">
+        Editar
+      </ion-button>
+      <ion-button color="danger" size="small" (click)="eliminarTarea(tarea.id)">
+        Eliminar
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

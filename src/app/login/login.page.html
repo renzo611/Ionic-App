@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Iniciar Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding rounded-content">
+  <form [formGroup]="formularioInicioSesion" (ngSubmit)="submitFormulario()">
+
+    <ion-item class="rounded-input email">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" formControlName="email" placeholder="Email"></ion-input>
+    </ion-item>
+
+    <ion-item class="rounded-input password ion-margin-top">
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" formControlName="password" placeholder="Contraseña"></ion-input>
+    </ion-item>
+
+    <div class="ion-margin-top">
+      <ion-button expand="full" [disabled]="formularioInicioSesion.invalid" class="rounded-button" type="submit">Iniciar Sesión</ion-button>
+    </div>
+
+  </form>
+</ion-content>

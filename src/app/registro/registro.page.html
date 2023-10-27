@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-md-6">
+        <form autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="submitFormulario()">
+
+          <ion-item class="ion-margin-top rounded-input">
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input type="text" formControlName="nombre" placeholder="Nombre del usuario"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="campoNoValido('nombre')">Debe ser en formato de nombre y apellido</ion-text>
+
+          <ion-item class="ion-margin-top rounded-input">
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" formControlName="email" placeholder="Email del usuario"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="campoNoValido('email')">El email es requerido</ion-text>
+
+          <ion-item class="ion-margin-top rounded-input">
+            <ion-label position="floating">Username</ion-label>
+            <ion-input type="text" formControlName="username" placeholder="Nombre código del usuario"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="campoNoValido('username')">El username no puede ser strider</ion-text>
+
+          <ion-item class="ion-margin-top rounded-input">
+            <ion-label position="floating">Password</ion-label>
+            <ion-input type="password" formControlName="password" placeholder="Password de su cuenta"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="campoNoValido('password')">La contraseña debe tener al menos 6 caracteres</ion-text>
+
+          <ion-item class="ion-margin-top rounded-input">
+            <ion-label position="floating">Confirmar Password</ion-label>
+            <ion-input type="password" formControlName="password2" placeholder="Confirmar la contraseña"></ion-input>
+          </ion-item>
+          <ion-text color="danger" *ngIf="campoNoValido('password2')">Las contraseñas no coinciden</ion-text>
+
+          <div class="ion-margin-top">
+            <ion-button expand="full" [disabled]="!miFormulario.valid" type="submit" class="rounded-button">Guardar</ion-button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</ion-content>

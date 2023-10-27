@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Crear Contacto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarPagina()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #contactForm="ngForm" (ngSubmit)="submitForm()">
+    <ion-item class="rounded-input">
+      <ion-label position="floating">Nombre:</ion-label>
+      <ion-input type="text" name="nombre" [(ngModel)]="contacto.nombre" required></ion-input>
+    </ion-item>
+    <ion-item class="rounded-input paddin-filter">
+      <ion-label position="floating">Email:</ion-label>
+      <ion-input type="email" name="email" [(ngModel)]="contacto.email" required></ion-input>
+    </ion-item>
+    <ion-item class="rounded-input paddin-filter">
+      <ion-label position="floating">Teléfono:</ion-label>
+      <ion-input type="text" name="telefono" [(ngModel)]="contacto.telefono" required></ion-input>
+    </ion-item>
+  <ion-button expand="full" class="ion-margin-top" type="submit" [disabled]="contactForm.invalid">Guardar</ion-button>
+      
+  </form>
+</ion-content>

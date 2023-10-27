@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Nueva Tarea</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarPagina()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #form="ngForm" (ngSubmit)="submitForm()">
+    <ion-item class="rounded-input">
+      <ion-label position="floating">Título:</ion-label>
+      <ion-input type="text" name="titulo" [(ngModel)]="tarea.titulo" required></ion-input>
+    </ion-item>
+
+    <ion-item class="rounded-input paddin-filter">
+      <ion-label position="floating">Descripción:</ion-label>
+      <ion-textarea name="descripcion" [(ngModel)]="tarea.descripcion" required></ion-textarea>
+    </ion-item>
+
+    <ion-item class="rounded-input paddin-filter">
+      <ion-label position="floating">Fecha de entrega:</ion-label>
+      <ion-input type="date" name="fechaFin" [(ngModel)]="tarea.fechaFin" required></ion-input>
+    </ion-item>
+
+    <ion-item class="rounded-input paddin-filter">
+      <ion-label position="floating">Usuario Asignado:</ion-label>
+      <ion-select name="usuarioAsignado" [(ngModel)]="tarea.usuarioAsignado" required>
+        <ion-select-option *ngFor="let contacto of listaDeContactos" [value]="contacto.nombre">{{ contacto.nombre }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button class="ion-margin-top" expand="full" type="submit" [disabled]="form.invalid">Agregar</ion-button>
+  </form>
+</ion-content>
