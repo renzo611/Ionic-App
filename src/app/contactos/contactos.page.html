@@ -25,9 +25,9 @@
           </ion-item-divider>
           <ion-item *ngFor="let contacto of contactos">
             <ion-label class="column-spacing">{{ contacto.id }}</ion-label>
-            <ion-label class="column-spacing">{{ contacto.nombre }}</ion-label>
+            <ion-label class="column-spacing">{{ contacto.name }}</ion-label>
             <ion-label class="column-spacing">{{ contacto.email }}</ion-label>
-            <ion-label class="column-spacing">{{ contacto.telefono }}</ion-label>
+            <ion-label class="column-spacing">{{ contacto.phone }}</ion-label>
             <ion-button color="primary" size="small" (click)="editarContacto(contacto)">
               Editar
             </ion-button>

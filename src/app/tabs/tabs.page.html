@@ -13,12 +13,12 @@
       <ion-label>Registro</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="tareas" href="/tabs/tareas">
+    <ion-tab-button tab="tareas" href="/tabs/tareas" *ngIf="isLogin">
       <ion-icon aria-hidden="true" name="square"></ion-icon>
       <ion-label>Tareas</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="contactos" href="/tabs/contactos">
+    <ion-tab-button tab="contactos" href="/tabs/contactos" *ngIf="isLogin">
       <ion-icon aria-hidden="true" name="square"></ion-icon>
       <ion-label>Contactos</ion-label>
     </ion-tab-button>

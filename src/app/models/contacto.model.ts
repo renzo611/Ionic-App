@@ -1,13 +1,13 @@
 export class Contacto {
-    id!: number;
-    nombre!: string;
+    userId!: number;
+    name!: string;
     email!: string;
-    telefono!: string;
+    phone!: string;
 
     constructor(id?: number, nombre?: string, email?: string, telefono?: string){
-        this.id = id!;
-        this.nombre = nombre!;
+        this.userId = id!;
+        this.name = nombre!;
         this.email = email!;
-        this.telefono = telefono!;
+        this.phone = telefono!;
     }
 }

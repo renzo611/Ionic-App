@@ -33,6 +33,14 @@ const routes: Routes = [
     path: 'nuevo-contacto',
     loadChildren: () => import('./nuevo-contacto/nuevo-contacto.module').then( m => m.NuevoContactoPageModule)
   },
+  {
+    path: 'editar-tarea',
+    loadChildren: () => import('./editar-tarea/editar-tarea.module').then( m => m.EditarTareaPageModule)
+  },
+  {
+    path: 'editar-contacto',
+    loadChildren: () => import('./editar-contacto/editar-contacto.module').then( m => m.EditarContactoPageModule)
+  },
 ];
 @NgModule({
   imports: [

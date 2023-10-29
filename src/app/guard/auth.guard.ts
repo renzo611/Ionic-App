@@ -15,11 +15,10 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot) {
 
     if (this.sharedService.isLogin()) {
-      console.log('Entro al guard por if')
       return this.navCtrl.navigateRoot(['/tabs/tareas']);
     }
     console.log('Entro al guard');
-    return false;
+    return true;
   }
   
 }

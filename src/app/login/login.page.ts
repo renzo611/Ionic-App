@@ -12,6 +12,8 @@ import { NavController } from '@ionic/angular';
 export class LoginPage implements OnInit {
 
   formularioInicioSesion: FormGroup;
+  errorMessage = '';
+  showError = false;
 
   constructor(private formBuilder: FormBuilder, 
               private readonly loginService: LoginService, 
@@ -32,11 +34,15 @@ export class LoginPage implements OnInit {
       .subscribe((data) => {
         if (data && data.jwt) {
           this.loginService.setCredentials(data);
-  
-          this.navCtrl.navigateForward('/tabs/tareas');
-        } else {
-          console.log('Inicio de sesión fallido');
+          window.location.reload();
+          this.navCtrl.navigateRoot('/tabs/tareas');
         }
+      }, (err) => {
+        if (err.status !== 200) {
+          this.errorMessage = 'Credenciales incorrectas';
+          this.showError = true;
+        }
+        throw(err);
       });
   }
 

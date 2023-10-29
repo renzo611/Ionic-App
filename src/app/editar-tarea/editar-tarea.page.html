@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form #form="ngForm" (ngSubmit)="submitForm()">
+  <form #form="ngForm" (ngSubmit)="updateTask()">
     <ion-item class="rounded-input">
       <ion-label position="floating">Título:</ion-label>
       <ion-input type="text" name="titulo" [(ngModel)]="tarea.name" required></ion-input>

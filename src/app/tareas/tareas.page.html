@@ -5,19 +5,25 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Botón de Agregar -->
   <ion-button expand="full" (click)="agregarNuevaTarea()" color="success">NUEVA TAREA</ion-button>
 
-  <!-- Espacio entre campos de filtro -->
   <ion-item class="paddin-filter rounded-input">
-    <ion-input [(ngModel)]="filtro.titulo" placeholder="Filtrar por título" clearInput></ion-input>
+    <ion-input [(ngModel)]="filtro.titulo" placeholder="Filtrar por título" clearInput (ionInput)="filtrarPorTitulo()"></ion-input>
   </ion-item>
-
+  
   <ion-item class="paddin-filter rounded-input">
-    <ion-select [(ngModel)]="filtro.usuario" placeholder="Filtrar por usuario">
-      <!-- Opciones del ion-select aquí -->
+    <ion-select placeholder="Filtrar por usuario" (ionChange)="filtrarPorContacto($event)">
+      <ion-select-option value="all">All</ion-select-option>
+      <ion-select-option *ngFor="let contacto of listaDeContactos" [value]="contacto">
+        {{ contacto.name }}
+      </ion-select-option>
     </ion-select>
   </ion-item>
+  
+  
+  
+  
+  
 
   <ion-list class="paddin-filter">
     <ion-item-divider>
@@ -32,11 +38,11 @@
 
     <ion-item *ngFor="let tarea of tareasFiltradas">
       <ion-label class="column-spacing">{{ tarea.id }}</ion-label>
-      <ion-label class="column-spacing">{{ tarea.titulo }}</ion-label>
-      <ion-label class="column-spacing">{{ tarea.descripcion }}</ion-label>
-      <ion-label class="column-spacing">{{ tarea.usuarioAsignado }}</ion-label>
-      <ion-label class="column-spacing">{{ tarea.fechaInicio | date:'dd/MM/yyyy' }}</ion-label>
-      <ion-label class="column-spacing">{{ tarea.fechaFin | date:'dd/MM/yyyy' }}</ion-label>
+      <ion-label class="column-spacing">{{ tarea.name }}</ion-label>
+      <ion-label class="column-spacing">{{ tarea.description }}</ion-label>
+      <ion-label class="column-spacing">{{ tarea.contactName }}</ion-label>
+      <ion-label class="column-spacing">{{ tarea.startDate| date:'dd/MM/yyyy' }}</ion-label>
+      <ion-label class="column-spacing">{{ tarea.endDate| date:'dd/MM/yyyy' }}</ion-label>
       <ion-button color="primary" size="small" (click)="editarTarea(tarea)">
         Editar
       </ion-button>

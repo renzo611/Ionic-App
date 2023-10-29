@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Crear Contacto</ion-title>
+    <ion-title>Modificar Contacto</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="cerrarPagina()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form #contactForm="ngForm" (ngSubmit)="submitForm()">
+  <form #contactForm="ngForm" (ngSubmit)="updateContact()">
     <ion-item class="rounded-input">
       <ion-label position="floating">Nombre:</ion-label>
       <ion-input type="text" name="nombre" [(ngModel)]="contacto.name" required></ion-input>
@@ -23,7 +23,6 @@
       <ion-label position="floating">Teléfono:</ion-label>
       <ion-input type="text" name="telefono" [(ngModel)]="contacto.phone" required></ion-input>
     </ion-item>
-  <ion-button expand="full" class="ion-margin-top" type="submit" [disabled]="contactForm.invalid">Guardar</ion-button>
-      
+    <ion-button expand="full" class="ion-margin-top" type="submit" [disabled]="contactForm.invalid">Guardar</ion-button>
   </form>
 </ion-content>
