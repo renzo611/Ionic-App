@@ -9,7 +9,7 @@ import { NavController } from '@ionic/angular';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
 
   formularioInicioSesion: FormGroup;
   errorMessage = '';
@@ -24,7 +24,6 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
 
   submitFormulario() {
     const emailControl = this.formularioInicioSesion.get('email');

@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
   templateUrl: './contactos.page.html',
   styleUrls: ['./contactos.page.scss'],
 })
-export class ContactosPage implements OnInit{
+export class ContactosPage{
 
   contactos : ContactModel[] = [];
   formularioEnEdicion: boolean = false;
@@ -17,9 +17,6 @@ export class ContactosPage implements OnInit{
   constructor(private navCtrl: NavController,
     private contactosService: ContactosService){
     this.cargarContactos();
-  }
-
-  ngOnInit(): void {
   }
   
   editarContacto(contacto : ContactModel){
