@@ -9,7 +9,7 @@ export class SharedService {
   constructor() { }
 
   isLogin(){
-    if(localStorage.getItem('jwt') && localStorage.getItem('id'))
+    if(sessionStorage.getItem('jwt') && sessionStorage.getItem('id'))
       return true;
 
     return false;
@@ -34,5 +34,52 @@ export class SharedService {
   }
 
 
-  showErrorMessage(){}
+  showErrorAlert(title: string, reason: string, onCancel?: () => void) {
+    Swal.fire({
+      title: title,
+      text: reason,
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#aaa',
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancelar',
+      heightAuto: false,
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.cancel) {
+        if (onCancel && typeof onCancel === 'function') {
+          onCancel();
+        }
+      }
+    });
+  }
+
+  showConfirmationAlert(
+    title: string,
+    reason: string,
+    onConfirm: () => void,
+    onCancel?: () => void
+  ) {
+    Swal.fire({
+      title: title,
+      text: reason,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      heightAuto: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (onConfirm && typeof onConfirm === 'function') {
+          onConfirm();
+        }
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        if (onCancel && typeof onCancel === 'function') {
+          onCancel();
+        }
+      }
+    });
+  }
 }

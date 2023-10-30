@@ -9,38 +9,36 @@ import { GeneralResponse } from '../models/general_response.model';
   providedIn: 'root'
 })
 export class ContactosService {
-  private readonly url: string = "http://localhost:8080/contact";
+  private readonly baseUrl: string = "http://localhost:8080/contact";
+  private headers!: HttpHeaders;
 
-  constructor(public http: HttpClient) { 
-
+  constructor(public http: HttpClient) {
+    this.setupHeaders();
   }
 
-  getAllContactos(id: number): Observable<ContactModel[]>{
-    const jwt = localStorage.getItem('jwt');
-    const headers = new HttpHeaders()
-    .set('Authorization', 'Bearer ' + jwt);
-    return this.http.get<ContactModel[]>(`${this.url}/by-user/${id}`, { headers });
+  private setupHeaders(): void {
+    const jwt = sessionStorage.getItem('jwt');
+    this.headers = new HttpHeaders().set('Authorization', `Bearer ${jwt}`);
   }
 
-  addContacto(contacto : Contacto){
-    const jwt = localStorage.getItem('jwt');
-    const headers = new HttpHeaders()
-    .set('Authorization', 'Bearer ' + jwt);
-    return this.http.post(`${this.url}/create`, contacto, { headers });
+  private getHeaders(): HttpHeaders {
+    return this.headers;
   }
 
-  deleteContacto(id: number):Observable<any>{
-    const jwt = localStorage.getItem('jwt');
-    const headers = new HttpHeaders()
-    .set('Authorization', 'Bearer ' + jwt);
-    return this.http.delete<GeneralResponse>(this.url + "/"  + id, { headers });
+  getAllContactos(id: number): Observable<ContactModel[]> {
+    return this.http.get<ContactModel[]>(`${this.baseUrl}/by-user/${id}`, { headers: this.getHeaders() });
+  }
+
+  addContacto(contacto: Contacto): Observable<any> {
+    return this.http.post(`${this.baseUrl}/create`, contacto, { headers: this.getHeaders() });
+  }
+
+  deleteContacto(id: number): Observable<GeneralResponse> {
+    return this.http.delete<GeneralResponse>(`${this.baseUrl}/${id}`, { headers: this.getHeaders() });
   }
 
   actualizarContacto(id: number, contactoActualizado: ContactModel): Observable<any> {
-    const url = `${this.url}/${id}`;
-    const jwt = localStorage.getItem('jwt');
-    const headers = new HttpHeaders()
-    .set('Authorization', 'Bearer ' + jwt);
-    return this.http.put(url, contactoActualizado, { headers });
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.put(url, contactoActualizado, { headers: this.getHeaders() });
   }
 }

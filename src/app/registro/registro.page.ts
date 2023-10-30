@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RegistroService } from './registro.service';
 import { RegistroRequest } from './dto/registro.request.dto';
-import Swal from 'sweetalert2';
 import { NavController } from '@ionic/angular';
+import { SharedService } from '../tabs/shared.service';
 
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.page.html',
   styleUrls: ['./registro.page.scss'],
 })
-export class RegistroPage implements OnInit {
+export class RegistroPage {
 
   registerForm : FormGroup = this.fb.group({
     nombre: ['',[Validators.required, ]],
@@ -20,14 +20,11 @@ export class RegistroPage implements OnInit {
     password2: ['',[Validators.required]],
   },{})
 
-  constructor(private fb: FormBuilder, 
+  constructor(private readonly fb: FormBuilder, 
               private readonly registroService: RegistroService,
-              private navCtrl: NavController,
+              private readonly navCtrl: NavController,
+              private readonly sharedService: SharedService,
     ){}
-
-  ngOnInit(): void {
-
-  }
 
   campoNoValido( campo : string){
     return this.registerForm.get(campo)?.invalid
@@ -48,39 +45,28 @@ export class RegistroPage implements OnInit {
       console.log(response);
       if(response.code < 400){
         this.registerForm.reset();
-        this.successLogin();
+        this.registerUser();
       }
     }, (err) => {
       this.errorLogin(err.error.message);
     })
   }
 
-  successLogin() {
-    Swal.fire({
-      title: 'Registro exitoso',
-      text: 'Tu registro ha sido exitoso. ¿Deseas ir a la página de inicio de sesión?',
-      icon: 'success',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, ir al inicio de sesión',
-      cancelButtonText: 'No, quedarme aquí',
-      heightAuto: false
-    }).then((result) => {
-      if (result.isConfirmed) {
+  registerUser() {
+    this.sharedService.showAlert(
+      'Registro exitoso',
+      'Sí, ir al inicio de sesión',
+      () => {
         this.navCtrl.navigateRoot('/tabs/login');
-      }
-    });
+      },
+      'No, quedarme aquí'
+    );
   }
+  
 
-  errorLogin(mensaje: string){
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: mensaje,
-      confirmButtonText: 'Cerrar',
-      heightAuto: false
-    });
+  errorLogin(mensaje: string) {
+    this.sharedService.showErrorAlert('Error', mensaje);
   }
+  
 
 }

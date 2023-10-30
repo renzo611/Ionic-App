@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Contacto } from '../models/contacto.model';
+import { Component } from '@angular/core';
 import { Tarea } from '../models/tarea.model';
 import { NavController } from '@ionic/angular';
 import { TareasService } from './tareas.service';
-import Swal from 'sweetalert2';
 import { ContactosService } from '../contactos/contactos.service';
 import { ContactModel } from '../models/contact_response.model';
+import { SharedService } from '../tabs/shared.service';
 
 @Component({
   selector: 'app-tareas',
   templateUrl: './tareas.page.html',
   styleUrls: ['./tareas.page.scss'],
 })
-export class TareasPage implements OnInit {
+export class TareasPage {
 
 
   listaTareas : Tarea[] = [];
@@ -25,21 +24,20 @@ export class TareasPage implements OnInit {
     usuario: ''
   };
 
-  constructor(private navCtrl: NavController, private readonly tareaService: TareasService, private contactoServices: ContactosService){
+  constructor(private readonly navCtrl: NavController, 
+              private readonly tareaService: TareasService, 
+              private readonly contactoServices: ContactosService,
+              private readonly sharedService: SharedService){
     this.getAllTareas();
     this.cargarContactos();
   }
-  ngOnInit(): void {
-  }
 
   getAllTareas(){
-    const idString = localStorage.getItem('id');
+    const idString = sessionStorage.getItem('id');
     const idNumber = parseInt(idString!, 10);
     this.tareaService.getAllByUser(idNumber).subscribe( response => {
       this.listaTareas = response;
       this.tareasFiltradas = response;
-    }, err => {
-      console.log(err);
     });
   }
 
@@ -68,7 +66,7 @@ export class TareasPage implements OnInit {
   }
 
   cargarContactos(){
-    const idString = localStorage.getItem('id');
+    const idString = sessionStorage.getItem('id');
     const idNumber = parseInt(idString!, 10);
     this.contactoServices.getAllContactos(idNumber).subscribe( data => {
       this.listaDeContactos = data;
@@ -82,29 +80,19 @@ export class TareasPage implements OnInit {
       },
     });
   }
-  eliminarTarea(id : number) {
-    Swal.fire({
-      title: '¿Estás seguro de eliminar esta tarea?',
-      text: 'Esta acción no se puede deshacer',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar',
-      heightAuto: false,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.tareaService.delete(id).subscribe((resp) => {
-          Swal.fire({
-            title: 'Tarea eliminada',
-            icon: 'success',
-            heightAuto: false
-          }).then(() => {
+
+  eliminarTarea(id: number) {
+    this.sharedService.showConfirmationAlert(
+      '¿Estás seguro de eliminar esta tarea?',
+      'Esta acción no se puede deshacer',
+      () => {
+        this.tareaService.delete(id).subscribe(() => {
+          this.sharedService.showAlert('Tarea eliminada', 'OK', () => {
             window.location.reload();
           });
         });
       }
-    });
+    );
   }
+  
 }

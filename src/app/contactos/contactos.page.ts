@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ContactosService } from './contactos.service';
 import { NavController } from '@ionic/angular';
 import { ContactModel } from '../models/contact_response.model';
-import Swal from 'sweetalert2';
+import { SharedService } from '../tabs/shared.service';
 
 @Component({
   selector: 'app-contactos',
@@ -15,7 +15,8 @@ export class ContactosPage{
   formularioEnEdicion: boolean = false;
 
   constructor(private navCtrl: NavController,
-    private contactosService: ContactosService){
+    private readonly contactosService: ContactosService,
+    private readonly sharedService: SharedService){
     this.cargarContactos();
   }
   
@@ -28,30 +29,21 @@ export class ContactosPage{
   }
 
   eliminarContacto(id: number) {
-    Swal.fire({
-      title: '¿Estás seguro de eliminar el contacto?',
-      text: 'Esta acción no se puede deshacer',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar',
-      heightAuto: false,
-    }).then((result) => {
-      if (result.isConfirmed) {
+    this.sharedService.showConfirmationAlert(
+      '¿Estás seguro de eliminar el contacto?',
+      'Esta acción no se puede deshacer',
+      () => {
         this.contactosService.deleteContacto(id).subscribe((resp) => {
-          Swal.fire({
-            title: 'Contacto eliminado',
-            icon: 'success',
-            heightAuto: false
-          }).then(() => {
-            window.location.reload();
-          });
+          this.sharedService.showConfirmationAlert(
+            'Contacto eliminado',
+            '',
+            () => window.location.reload()
+          );
         });
       }
-    });
+    );
   }
+  
 
   agregarContacto(){
     /*this.formularioEnEdicion = !this.formularioEnEdicion;
@@ -60,7 +52,7 @@ export class ContactosPage{
   }
 
   cargarContactos(){
-    const idString = localStorage.getItem('id');
+    const idString = sessionStorage.getItem('id');
     const idNumber = parseInt(idString!, 10);
     this.contactosService.getAllContactos(idNumber).subscribe(( resp : ContactModel[]) => {
       this.contactos = resp;

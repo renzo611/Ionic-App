@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
 import { Tarea } from '../models/tarea.model';
 import { NavController } from '@ionic/angular';
 import { ContactModel } from '../models/contact_response.model';
@@ -13,23 +12,19 @@ import { UpdateTask } from '../models/update_task.model';
   templateUrl: './editar-tarea.page.html',
   styleUrls: ['./editar-tarea.page.scss'],
 })
-export class EditarTareaPage implements OnInit {
+export class EditarTareaPage {
 
   tarea: Tarea;
   newTask!: UpdateTask;
   listaDeContactos : ContactModel[] = [];
 
-  constructor(private readonly activatedRoute: ActivatedRoute,
-              private readonly navCtrl: NavController,
+  constructor(private readonly navCtrl: NavController,
               private readonly contactoService: ContactosService,
               private readonly tareaService: TareasService,
               private readonly sharedService: SharedService) {
     this.tarea = history.state.task;
     this.newTask = new UpdateTask(this.tarea.name, this.tarea.description, this.tarea.startDate, this.tarea.endDate, this.tarea.contactId);
     this.cargarContactos();
-  }
-
-  ngOnInit() {
   }
 
   cerrarPagina(){
@@ -54,7 +49,7 @@ export class EditarTareaPage implements OnInit {
   }
 
   cargarContactos(){
-    const idString = localStorage.getItem('id');
+    const idString = sessionStorage.getItem('id');
     const idNumber = parseInt(idString!, 10);
     this.contactoService.getAllContactos(idNumber).subscribe(( resp : ContactModel[]) => {
       this.listaDeContactos = resp;

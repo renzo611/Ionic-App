@@ -15,7 +15,7 @@ export class LoginService {
   }
 
   setCredentials(loginResponse: LoginResponse){
-    localStorage.setItem('jwt', loginResponse.jwt);
-    localStorage.setItem('id', loginResponse.userId.toString());
+    sessionStorage.setItem('jwt', loginResponse.jwt);
+    sessionStorage.setItem('id', loginResponse.userId.toString());
   }
 }
